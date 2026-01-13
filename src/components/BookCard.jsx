@@ -1,56 +1,69 @@
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
+import { slugify } from "../utils/slugify";
 
-export default function BookCard({
-  book,
-  favorites,
-  toggleFavorite,
-  onSelect,
-}) {
+export default function BookCard({ book, favorites, toggleFavorite }) {
+  const navigate = useNavigate();
   const isFav = favorites.includes(book.title);
 
   return (
     <div
-      onClick={onSelect}
       className="
-        group relative bg-white/60 backdrop-blur-xl 
-        border border-[#919682]/30 rounded-2xl p-4
-        shadow-lg hover:shadow-2xl hover:scale-[1.03] 
-        transition-all duration-300 cursor-pointer
+        group relative
+        bg-white/50 backdrop-blur-xl
+        rounded-3xl p-4
+        shadow-md hover:shadow-2xl
+        transition-all duration-300
+        hover:-translate-y-1
+        cursor-pointer
       "
+      onClick={() => navigate(`/book/${slugify(book.title)}`)}
     >
-      {/* FAVORİ KALP */}
+      {/* IMAGE */}
+      <div className="overflow-hidden rounded-2xl">
+        <img
+          src={book.img}
+          alt={book.title}
+          className="w-full h-56 object-cover
+                     group-hover:scale-105 transition duration-300"
+        />
+      </div>
+
+      {/* FAVORITE */}
       <button
         onClick={(e) => {
-          e.stopPropagation(); // 💖 Kalbe tıklayınca detay açılmasın
+          e.stopPropagation();
           toggleFavorite(book.title);
         }}
-        className="
-          absolute top-3 right-3 z-20
-          text-2xl text-[#595E48]
-          hover:scale-125 transition
-        "
+        className="absolute top-4 right-4 text-2xl"
       >
         {isFav ? (
-          <AiFillHeart className="text-pink-500 drop-shadow" />
+          <AiFillHeart className="text-pink-500" />
         ) : (
-          <AiOutlineHeart />
+          <AiOutlineHeart className="text-gray-400 hover:text-pink-500" />
         )}
       </button>
 
-      {/* KİTAP FOTO */}
-      <img
-        src={book.img}
-        alt={book.title}
-        className="
-          rounded-xl h-56 w-full object-cover
-          group-hover:opacity-90 transition
-        "
-      />
-
-      {/* KİTAP BİLGİLERİ */}
-      <div className="mt-3">
-        <h3 className="font-bold text-lg text-[#595E48]">{book.title}</h3>
+      {/* INFO */}
+      <div className="mt-4">
+        <h3 className="font-semibold text-lg text-[#595E48]">{book.title}</h3>
         <p className="text-sm text-gray-600">{book.author}</p>
+      </div>
+
+      {/* HOVER CTA */}
+      <div
+        className="
+          absolute inset-0
+          flex items-center justify-center
+          bg-black/40 text-white
+          opacity-0 group-hover:opacity-100
+          transition
+          rounded-3xl
+        "
+      >
+        <span className="px-6 py-2 rounded-full bg-white/20 backdrop-blur">
+          Detaya Git →
+        </span>
       </div>
     </div>
   );
