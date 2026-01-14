@@ -13,7 +13,6 @@ import BookGrid from "../components/BookGrid";
 export default function Home() {
   const navigate = useNavigate();
 
-  // ✅ TEK handleSelectBook (slug kullanıyor)
   const handleSelectBook = (book) => {
     navigate(`/book/${slugify(book.title)}`);
   };
@@ -53,12 +52,10 @@ export default function Home() {
   });
 
   const toggleFavorite = (title) => {
-    let updated;
-    if (favorites.includes(title)) {
-      updated = favorites.filter((f) => f !== title);
-    } else {
-      updated = [...favorites, title];
-    }
+    const updated = favorites.includes(title)
+      ? favorites.filter((f) => f !== title)
+      : [...favorites, title];
+
     setFavorites(updated);
     localStorage.setItem("favorites", JSON.stringify(updated));
   };
@@ -92,14 +89,18 @@ export default function Home() {
       <Navbar variant="home" onSearch={setSearchTerm} />
 
       {/* DIVIDER */}
-      <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-[#919682]/40 to-transparent"></div>
+      <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-[#919682]/40 to-transparent" />
 
       {/* HERO */}
       <div
         className="
-          relative w-full h-72 md:h-80 lg:h-96
-          rounded-3xl overflow-hidden
-          mx-auto max-w-7xl mt-8 shadow-xl
+          relative w-full
+          h-60 sm:h-72 md:h-80 lg:h-96
+          rounded-2xl sm:rounded-3xl
+          overflow-hidden
+          mx-auto max-w-7xl
+          mt-6 sm:mt-8
+          shadow-xl
         "
       >
         <div
@@ -110,26 +111,38 @@ export default function Home() {
             scale-105 opacity-95
             blur-[2px]
           "
-        ></div>
+        />
 
-        <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-black/50"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-black/60" />
 
-        <div className="absolute top-10 left-10 w-40 h-40 bg-[#919682]/40 blur-3xl rounded-full"></div>
-        <div className="absolute bottom-10 right-10 w-48 h-48 bg-[#595E48]/30 blur-3xl rounded-full"></div>
-
-        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-white drop-shadow">
+        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 sm:px-6">
+          <h1
+            className="
+              text-2xl sm:text-3xl md:text-4xl lg:text-5xl
+              font-extrabold text-white drop-shadow
+            "
+          >
             📚 BookNest'e Hoş Geldin
           </h1>
 
-          <p className="mt-3 text-lg md:text-xl text-white/90">
+          <p
+            className="
+              mt-3
+              text-sm sm:text-base md:text-lg
+              text-white/90
+              max-w-xl
+            "
+          >
             Favori kitaplarını keşfet, koleksiyonunu oluştur ✨
           </p>
 
           <button
             onClick={handleExplore}
             className="
-              mt-6 px-7 py-3 rounded-2xl
+              mt-5 sm:mt-6
+              px-5 sm:px-7
+              py-2.5 sm:py-3
+              rounded-xl sm:rounded-2xl
               bg-white/25 backdrop-blur-lg
               text-white font-semibold
               border border-white/40
@@ -143,12 +156,21 @@ export default function Home() {
       </div>
 
       {/* CATEGORY */}
-      <div className="max-w-7xl mx-auto px-6 mt-10 flex gap-4 flex-wrap">
+      <div
+        className="
+          max-w-7xl mx-auto
+          px-4 sm:px-6
+          mt-8 sm:mt-10
+          flex gap-3 sm:gap-4
+          flex-wrap
+          justify-center sm:justify-start
+        "
+      >
         {["Hepsi", "Klasik", "Felsefe", "Fantastik"].map((cat) => (
           <button
             key={cat}
             onClick={() => setSelectedCategory(cat)}
-            className={`px-6 py-2 rounded-full transition-all ${
+            className={`px-5 sm:px-6 py-2 rounded-full transition-all text-sm sm:text-base ${
               selectedCategory === cat
                 ? "bg-[#919682] text-white scale-105"
                 : "bg-white/60 border border-[#919682]/40 text-[#595E48] hover:bg-[#919682] hover:text-white"
@@ -163,9 +185,13 @@ export default function Home() {
       <div
         ref={booksRef}
         className="
-          max-w-7xl mx-auto px-6 py-12 mt-6
+          max-w-7xl mx-auto
+          px-4 sm:px-6
+          py-8 sm:py-12
+          mt-6
           border border-[#919682]/20
-          rounded-3xl shadow-inner
+          rounded-2xl sm:rounded-3xl
+          shadow-inner
           bg-white/30 backdrop-blur-md
         "
       >

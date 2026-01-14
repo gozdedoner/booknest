@@ -12,15 +12,12 @@ export default function Analytics() {
   const [lowestBook, setLowestBook] = useState(null);
 
   useEffect(() => {
-    // ⭐ Favoriler
     const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
     setFavoritesCount(favorites.length);
 
-    // 📚 Toplam kitap (şimdilik statik)
     const books = ["1984", "Simyacı", "Hayvan Çiftliği", "Küçük Prens"];
     setBookCount(books.length);
 
-    // 📊 Okuma verileri
     const progressEntries = Object.keys(localStorage)
       .filter((k) => k.startsWith("progress-"))
       .map((k) => ({
@@ -43,20 +40,19 @@ export default function Analytics() {
 
   return (
     <div className="min-h-screen bg-softWhite">
-      {/* NAVBAR */}
       <Navbar variant="detail" />
 
-      <div className="max-w-6xl mx-auto px-6 py-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
         {/* HEADER */}
-        <h1 className="text-3xl font-extrabold text-[#595E48] mb-2">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-[#595E48] mb-1">
           📊 Okuma Analizi
         </h1>
-        <p className="text-gray-600 mb-10">
+        <p className="text-sm sm:text-base text-gray-600 mb-8 sm:mb-10">
           Okuma alışkanlıklarının genel görünümü
         </p>
 
         {/* STATS */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6">
           <StatCard title="Favori Kitaplar" value={favoritesCount} icon="⭐" />
           <StatCard title="Toplam Kitap" value={bookCount} icon="📚" />
           <StatCard
@@ -69,21 +65,23 @@ export default function Analytics() {
         {/* CHART */}
         <div
           className="
-            mt-12 p-8
+            mt-10 sm:mt-12
+            p-5 sm:p-8
             bg-white/60 backdrop-blur-xl
             border border-[#919682]/30
-            rounded-3xl shadow-lg
+            rounded-2xl sm:rounded-3xl
+            shadow-lg
           "
         >
-          <h2 className="text-xl font-semibold text-[#595E48] mb-6">
+          <h2 className="text-lg sm:text-xl font-semibold text-[#595E48] mb-4 sm:mb-6">
             📈 Okuma İlerlemesi
           </h2>
 
           <ProgressChart data={progressData} />
 
-          {/* PREMIUM INSIGHTS */}
+          {/* INSIGHTS */}
           {topBook && (
-            <div className="mt-6 flex flex-wrap gap-6 text-sm text-gray-600">
+            <div className="mt-6 flex flex-col sm:flex-row flex-wrap gap-4 sm:gap-6 text-xs sm:text-sm text-gray-600">
               <div className="flex items-center gap-2">
                 🏆
                 <span>
@@ -111,16 +109,18 @@ export default function Analytics() {
         {topBook && (
           <div
             className="
-              mt-12 p-8
+              mt-10 sm:mt-12
+              p-5 sm:p-8
               bg-white/50 backdrop-blur-xl
               border border-[#919682]/30
-              rounded-3xl shadow-lg
+              rounded-2xl sm:rounded-3xl
+              shadow-lg
             "
           >
-            <h2 className="text-xl font-semibold text-[#595E48] mb-2">
+            <h2 className="text-lg sm:text-xl font-semibold text-[#595E48] mb-2">
               🧠 Okuma İçgörüsü
             </h2>
-            <p className="text-gray-700 leading-relaxed">
+            <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
               Favorilerine eklediğin kitapların büyük bir kısmını gerçekten
               okumaya devam ediyorsun. Özellikle{" "}
               <strong className="text-[#595E48]">{topBook.title}</strong>{" "}

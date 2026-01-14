@@ -16,7 +16,6 @@ export default function Detail() {
   const location = useLocation();
   const stateBook = location.state?.book;
 
-  // 📚 KİTAPLAR (ÖNCE TANIMLANIR)
   const books = [
     {
       title: "1984",
@@ -58,15 +57,14 @@ export default function Detail() {
   }, []);
 
   const toggleFavorite = () => {
-    let updated;
-    favorites.some((f) => f.title === book.title)
-      ? (updated = favorites.filter((f) => f !== book.title))
-      : (updated = [...favorites, book.title]);
+    const updated = favorites.includes(book.title)
+      ? favorites.filter((f) => f !== book.title)
+      : [...favorites, book.title];
+
     setFavorites(updated);
     localStorage.setItem("favorites", JSON.stringify(updated));
   };
 
-  // 🛡️ Kitap yoksa güvenli çık
   if (!book) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -77,29 +75,32 @@ export default function Detail() {
 
   return (
     <>
-      {/* SLIM NAVBAR */}
       <Navbar variant="detail" />
 
-      {/* PAGE */}
       <div
         className="
-        min-h-screen px-6 py-10
-        bg-softWhite
-        bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]
-        animate-fadeIn
-      "
+          min-h-screen
+          px-4 sm:px-6
+          py-6 sm:py-10
+          bg-softWhite
+          bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]
+          animate-fadeIn
+        "
       >
         {/* BACK */}
         <button
           onClick={() => navigate(-1)}
           className="
-          mb-8 px-5 py-2
-          rounded-xl bg-[#919682]/30
-          backdrop-blur-xl border border-[#919682]/40
-          text-[#595E48]
-          hover:bg-[#919682] hover:text-white
-          transition
-        "
+            mb-6 sm:mb-8
+            px-4 sm:px-5 py-2
+            rounded-xl
+            bg-[#919682]/30
+            backdrop-blur-xl
+            border border-[#919682]/40
+            text-[#595E48]
+            hover:bg-[#919682] hover:text-white
+            transition
+          "
         >
           ← Geri Dön
         </button>
@@ -107,36 +108,57 @@ export default function Detail() {
         {/* CARD */}
         <div
           className="
-          max-w-5xl mx-auto
-          bg-white/60 backdrop-blur-2xl
-          border border-[#919682]/30
-          rounded-3xl
-          shadow-xl
-          p-10 flex flex-col md:flex-row gap-10
-        "
+            max-w-5xl mx-auto
+            bg-white/60 backdrop-blur-2xl
+            border border-[#919682]/30
+            rounded-2xl sm:rounded-3xl
+            shadow-xl
+            p-5 sm:p-8 md:p-10
+            flex flex-col md:flex-row
+            gap-6 sm:gap-8 md:gap-10
+          "
         >
           {/* IMAGE */}
           <div className="w-full md:w-1/3">
             <img
               src={book.img}
               alt={book.title}
-              className="w-full rounded-3xl shadow-lg"
+              className="
+                w-full
+                rounded-2xl sm:rounded-3xl
+                shadow-lg
+              "
             />
           </div>
 
           {/* INFO */}
           <div className="flex-1">
-            <h1 className="text-4xl font-extrabold text-[#595E48]">
+            <h1
+              className="
+                text-2xl sm:text-3xl md:text-4xl
+                font-extrabold
+                text-[#595E48]
+              "
+            >
               {book.title}
             </h1>
 
-            <p className="text-lg text-gray-700 mt-1">✍️ {book.author}</p>
-            <p className="text-sm text-gray-600 mt-1">📂 {book.category}</p>
+            <p className="text-sm sm:text-base text-gray-700 mt-1">
+              ✍️ {book.author}
+            </p>
+            <p className="text-xs sm:text-sm text-gray-600 mt-1">
+              📂 {book.category}
+            </p>
 
             {/* FAVORI */}
             <button
               onClick={toggleFavorite}
-              className="mt-4 text-3xl hover:scale-110 transition"
+              className="
+                mt-4
+                text-2xl sm:text-3xl
+                hover:scale-110
+                transition
+              "
             >
               {favorites.includes(book.title) ? (
                 <AiFillHeart className="text-pink-500" />
@@ -146,20 +168,23 @@ export default function Detail() {
             </button>
 
             {/* DESC */}
-            <p className="mt-6 text-gray-700 italic leading-relaxed">
+            <p className="mt-5 sm:mt-6 text-sm sm:text-base text-gray-700 italic leading-relaxed">
               {book.desc}
             </p>
 
-            {/* OKUMAYA BAŞLA */}
+            {/* READ */}
             <button
               onClick={() => navigate(`/read/${title}`)}
               className="
-              mt-8 px-8 py-3 rounded-2xl
-              bg-gradient-to-r from-[#919682] to-[#595E48]
-              text-white font-semibold
-              hover:scale-105 hover:shadow-2xl
-              transition-all duration-300
-            "
+                mt-6 sm:mt-8
+                w-full sm:w-auto
+                px-6 sm:px-8 py-3
+                rounded-xl sm:rounded-2xl
+                bg-gradient-to-r from-[#919682] to-[#595E48]
+                text-white font-semibold
+                hover:scale-105 hover:shadow-2xl
+                transition-all duration-300
+              "
             >
               Okumaya Başla 📖
             </button>
